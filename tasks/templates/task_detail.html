@@ -3,35 +3,47 @@
 
 {% block content %}
 
+<main class="container">
+    <div class="row">
+        <section class="col-md-4 offset-md-4 mt-5 card">
+            
+            {{ error }}
+            
+            <form method="POST" id="task_form">  <!--send to current url-->
+                <h1 class="text-secondary"> {{ task.title }} </h1>
+
+                {% csrf_token %}
+                {{ form.as_p }}
+
+            </form>
+            
+            <div class="d-flex justify-content-between mt-3 mb-3">
+                
+                <button class="btn btn-primary" form="task_form" type="submit">
+                    Update
+                </button>
+            
+                <form action= "{% url 'task_complete' task.id %}" method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-secondary">
+                        Complete
+                    </button>
+                </form>
+
+                <form action= "{% url 'task_delete' task.id %}" method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-danger">
+                        Delete
+                    </button>
+                </form>
+            </div>
+
+        </section>
+
+    </div>
+
+</main>
 
 
-<h1> {{ task.title }} </h1>
-
-{{ error }}
-
-<form method="POST">  <!--send to current url-->
-    
-    {% csrf_token %}
-    {{ form.as_p }}
-    
-    <button>
-        Update
-    </button>
-
-</form>
-
-<form action= "{% url 'task_complete' task.id %}" method="POST">
-    {% csrf_token %}
-    <button>
-        Complete
-    </button>
-</form>
-
-<form action= "{% url 'task_delete' task.id %}" method="POST">
-    {% csrf_token %}
-    <button>
-        Delete
-    </button>
-</form>
 
 {% endblock %}
